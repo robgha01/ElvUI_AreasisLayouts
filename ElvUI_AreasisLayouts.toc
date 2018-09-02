@@ -1,0 +1,9 @@
+## Interface: 70300
+## Author: Blazeflack
+## Version: 1.00
+## Title: |cff1784d1ElvUI|r |cff4beb2cAreasis Layouts|r
+## Notes: Contains layouts from SomePerson
+## RequiredDeps: ElvUI
+## DefaultState: enabled
+
+Code.lua
