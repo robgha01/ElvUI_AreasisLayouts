@@ -182,7 +182,6 @@ local function SetupLayout(layout)
 	E.db["unitframe"]["units"]["player"]["classbar"]["detachFromFrame"] = true;
 	E.db["unitframe"]["units"]["player"]["aurabar"]["enable"] = false;
 	E.db["unitframe"]["units"]["player"]["aurabar"]["height"] = 33;
-	E.db["unitframe"]["units"]["player"]["swingbar"]["enable"] = false;
 	E.db["unitframe"]["units"]["player"]["combatfade"] = true;
 	E.db["unitframe"]["units"]["player"]["height"] = 41;
 	E.db["unitframe"]["units"]["raid"]["rdebuffs"]["font"] = "Friz Quadrata TT";
