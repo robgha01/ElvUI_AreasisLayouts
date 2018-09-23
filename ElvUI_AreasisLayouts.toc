@@ -7,3 +7,4 @@
 ## DefaultState: enabled
 
 Code.lua
+layouts\Load_Layouts.xml
