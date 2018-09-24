@@ -5,7 +5,6 @@ local l = E:NewModule("Diablo Layouts", "AceHook-3.0", "AceEvent-3.0", "AceTimer
 
 local function RegisterElvUI()
     mod:RegisterLayout("Diablo", "ElvUI", function(_)
-        ViragDevTool_AddData("", "Installing ElvUI for Diablo Layouts")
         -- Profile
         E.db["databars"]["experience"]["textFont"] = "ABF";
         E.db["databars"]["experience"]["textFormat"] = "PERCENT";
@@ -318,7 +317,6 @@ end
 
 local function RegisterQuartz()
     mod:RegisterLayout("Diablo", "Quartz3", function(Quartz3)
-        ViragDevTool_AddData(Quartz3, "Installing Quartz3 for Diablo Layouts")
         Quartz3.db.profile["channelingcolor"] = {0.32,0.3,1};
         Quartz3.db.profile["completecolor"] = {0.12,0.86,0.15};
         Quartz3.db.profile["borderalpha"] = 1;
@@ -421,7 +419,169 @@ local function RegisterQuartz()
 end
 
 
+local function RegisterMistrasDiabloOrbs()
+    mod:RegisterLayout("Diablo", "Quartz3", function(Quartz3)
+        D32CharacterData["defaultPlayerFrame"]["show"] = false;
+        D32CharacterData["values"]["commaSeparated"] = false;
+        D32CharacterData["values"]["formatted"] = true;
+        D32CharacterData["manaOrb"]["textures"]["rotation"] = "orb_rotation_bubbles";
+        D32CharacterData["manaOrb"]["textures"]["fill"] = "MDO_orb_filling2";
+        D32CharacterData["manaOrb"]["galaxy"]["a"] = 0.99999779462814;
+        D32CharacterData["manaOrb"]["galaxy"]["b"] = 0;
+        D32CharacterData["manaOrb"]["galaxy"]["g"] = 0;
+        D32CharacterData["manaOrb"]["galaxy"]["r"] = 0.79999824240804;
+        D32CharacterData["manaOrb"]["font2"]["a"] = 0.99999779462814;
+        D32CharacterData["manaOrb"]["font2"]["r"] = 0.99999780301005;
+        D32CharacterData["manaOrb"]["font2"]["show"] = true;
+        D32CharacterData["manaOrb"]["font2"]["g"] = 0.99999779462814;
+        D32CharacterData["manaOrb"]["font2"]["b"] = 0.99999779462814;
+        D32CharacterData["manaOrb"]["offsetX"] = 250;
+        D32CharacterData["manaOrb"]["font1"]["a"] = 0.99999779462814;
+        D32CharacterData["manaOrb"]["font1"]["r"] = 0.99999780301005;
+        D32CharacterData["manaOrb"]["font1"]["show"] = true;
+        D32CharacterData["manaOrb"]["font1"]["g"] = 0.99999779462814;
+        D32CharacterData["manaOrb"]["font1"]["b"] = 0.99999779462814;
+        D32CharacterData["manaOrb"]["orbColor"]["a"] = 0.99999779462814;
+        D32CharacterData["manaOrb"]["orbColor"]["b"] = 0;
+        D32CharacterData["manaOrb"]["orbColor"]["g"] = 0;
+        D32CharacterData["manaOrb"]["orbColor"]["r"] = 0.79999824240804;
+        D32CharacterData["manaOrb"]["offsetY"] = 0;
+        D32CharacterData["manaOrb"]["scale"] = 1.01;
+        D32CharacterData["manaOrb"]["formatting"]["truncated"] = true;
+        D32CharacterData["manaOrb"]["formatting"]["commaSeparated"] = false;
+        D32CharacterData["powerFrame"]["show"] = true;
+        D32CharacterData["petOrb"]["enabled"] = true;
+        D32CharacterData["petOrb"]["manaOrb"]["a"] = 1;
+        D32CharacterData["petOrb"]["manaOrb"]["b"] = 0;
+        D32CharacterData["petOrb"]["manaOrb"]["g"] = 0;
+        D32CharacterData["petOrb"]["manaOrb"]["r"] = 0.8;
+        D32CharacterData["petOrb"]["scale"] = 1;
+        D32CharacterData["petOrb"]["healthOrb"]["a"] = 1;
+        D32CharacterData["petOrb"]["healthOrb"]["b"] = 0.43;
+        D32CharacterData["petOrb"]["healthOrb"]["g"] = 0.61;
+        D32CharacterData["petOrb"]["healthOrb"]["r"] = 0.78;
+        D32CharacterData["petOrb"]["showPercentage"] = true;
+        D32CharacterData["font"] = "FONTS\\FRIZQT__.ttf";
+        D32CharacterData["druidColors"]["tree"]["font2"]["a"] = 1;
+        D32CharacterData["druidColors"]["tree"]["font2"]["b"] = 1;
+        D32CharacterData["druidColors"]["tree"]["font2"]["g"] = 1;
+        D32CharacterData["druidColors"]["tree"]["font2"]["r"] = 1;
+        D32CharacterData["druidColors"]["tree"]["galaxy"]["a"] = 1;
+        D32CharacterData["druidColors"]["tree"]["galaxy"]["b"] = 0.87;
+        D32CharacterData["druidColors"]["tree"]["galaxy"]["g"] = 0.44;
+        D32CharacterData["druidColors"]["tree"]["galaxy"]["r"] = 0;
+        D32CharacterData["druidColors"]["tree"]["font1"]["a"] = 1;
+        D32CharacterData["druidColors"]["tree"]["font1"]["b"] = 1;
+        D32CharacterData["druidColors"]["tree"]["font1"]["g"] = 1;
+        D32CharacterData["druidColors"]["tree"]["font1"]["r"] = 1;
+        D32CharacterData["druidColors"]["tree"]["orbColor"]["a"] = 1;
+        D32CharacterData["druidColors"]["tree"]["orbColor"]["b"] = 0.87;
+        D32CharacterData["druidColors"]["tree"]["orbColor"]["g"] = 0.44;
+        D32CharacterData["druidColors"]["tree"]["orbColor"]["r"] = 0;
+        D32CharacterData["druidColors"]["moonkin"]["font2"]["a"] = 1;
+        D32CharacterData["druidColors"]["moonkin"]["font2"]["b"] = 1;
+        D32CharacterData["druidColors"]["moonkin"]["font2"]["g"] = 1;
+        D32CharacterData["druidColors"]["moonkin"]["font2"]["r"] = 1;
+        D32CharacterData["druidColors"]["moonkin"]["galaxy"]["a"] = 1;
+        D32CharacterData["druidColors"]["moonkin"]["galaxy"]["b"] = 0.87;
+        D32CharacterData["druidColors"]["moonkin"]["galaxy"]["g"] = 0.44;
+        D32CharacterData["druidColors"]["moonkin"]["galaxy"]["r"] = 0;
+        D32CharacterData["druidColors"]["moonkin"]["font1"]["a"] = 1;
+        D32CharacterData["druidColors"]["moonkin"]["font1"]["b"] = 1;
+        D32CharacterData["druidColors"]["moonkin"]["font1"]["g"] = 1;
+        D32CharacterData["druidColors"]["moonkin"]["font1"]["r"] = 1;
+        D32CharacterData["druidColors"]["moonkin"]["orbColor"]["a"] = 1;
+        D32CharacterData["druidColors"]["moonkin"]["orbColor"]["b"] = 0.87;
+        D32CharacterData["druidColors"]["moonkin"]["orbColor"]["g"] = 0.44;
+        D32CharacterData["druidColors"]["moonkin"]["orbColor"]["r"] = 0;
+        D32CharacterData["druidColors"]["cat"]["font2"]["a"] = 1;
+        D32CharacterData["druidColors"]["cat"]["font2"]["b"] = 1;
+        D32CharacterData["druidColors"]["cat"]["font2"]["g"] = 1;
+        D32CharacterData["druidColors"]["cat"]["font2"]["r"] = 1;
+        D32CharacterData["druidColors"]["cat"]["galaxy"]["a"] = 1;
+        D32CharacterData["druidColors"]["cat"]["galaxy"]["b"] = 0.41;
+        D32CharacterData["druidColors"]["cat"]["galaxy"]["g"] = 0.96;
+        D32CharacterData["druidColors"]["cat"]["galaxy"]["r"] = 1;
+        D32CharacterData["druidColors"]["cat"]["font1"]["a"] = 1;
+        D32CharacterData["druidColors"]["cat"]["font1"]["b"] = 1;
+        D32CharacterData["druidColors"]["cat"]["font1"]["g"] = 1;
+        D32CharacterData["druidColors"]["cat"]["font1"]["r"] = 1;
+        D32CharacterData["druidColors"]["cat"]["orbColor"]["a"] = 1;
+        D32CharacterData["druidColors"]["cat"]["orbColor"]["b"] = 0.41;
+        D32CharacterData["druidColors"]["cat"]["orbColor"]["g"] = 0.96;
+        D32CharacterData["druidColors"]["cat"]["orbColor"]["r"] = 1;
+        D32CharacterData["druidColors"]["bear"]["font2"]["a"] = 1;
+        D32CharacterData["druidColors"]["bear"]["font2"]["b"] = 1;
+        D32CharacterData["druidColors"]["bear"]["font2"]["g"] = 1;
+        D32CharacterData["druidColors"]["bear"]["font2"]["r"] = 1;
+        D32CharacterData["druidColors"]["bear"]["galaxy"]["a"] = 1;
+        D32CharacterData["druidColors"]["bear"]["galaxy"]["b"] = 0;
+        D32CharacterData["druidColors"]["bear"]["galaxy"]["g"] = 0;
+        D32CharacterData["druidColors"]["bear"]["galaxy"]["r"] = 0.8;
+        D32CharacterData["druidColors"]["bear"]["font1"]["a"] = 1;
+        D32CharacterData["druidColors"]["bear"]["font1"]["b"] = 1;
+        D32CharacterData["druidColors"]["bear"]["font1"]["g"] = 1;
+        D32CharacterData["druidColors"]["bear"]["font1"]["r"] = 1;
+        D32CharacterData["druidColors"]["bear"]["orbColor"]["a"] = 1;
+        D32CharacterData["druidColors"]["bear"]["orbColor"]["b"] = 0;
+        D32CharacterData["druidColors"]["bear"]["orbColor"]["g"] = 0;
+        D32CharacterData["druidColors"]["bear"]["orbColor"]["r"] = 0.8;
+        D32CharacterData["artwork"]["show"] = true;
+        D32CharacterData["healthOrb"]["textures"]["rotation"] = "orb_rotation_bubbles";
+        D32CharacterData["healthOrb"]["textures"]["fill"] = "MDO_orb_filling2";
+        D32CharacterData["healthOrb"]["galaxy"]["a"] = 0.99999779462814;
+        D32CharacterData["healthOrb"]["galaxy"]["b"] = 0.43137159943581;
+        D32CharacterData["healthOrb"]["galaxy"]["g"] = 0.61176335811615;
+        D32CharacterData["healthOrb"]["galaxy"]["r"] = 0.78039044234902;
+        D32CharacterData["healthOrb"]["font2"]["a"] = 0.99999779462814;
+        D32CharacterData["healthOrb"]["font2"]["r"] = 0.99999780301005;
+        D32CharacterData["healthOrb"]["font2"]["show"] = true;
+        D32CharacterData["healthOrb"]["font2"]["g"] = 0.99999779462814;
+        D32CharacterData["healthOrb"]["font2"]["b"] = 0.99999779462814;
+        D32CharacterData["healthOrb"]["offsetX"] = -250;
+        D32CharacterData["healthOrb"]["font1"]["a"] = 0.99999779462814;
+        D32CharacterData["healthOrb"]["font1"]["r"] = 0.99999780301005;
+        D32CharacterData["healthOrb"]["font1"]["show"] = true;
+        D32CharacterData["healthOrb"]["font1"]["g"] = 0.99999779462814;
+        D32CharacterData["healthOrb"]["font1"]["b"] = 0.99999779462814;
+        D32CharacterData["healthOrb"]["orbColor"]["a"] = 0.99999779462814;
+        D32CharacterData["healthOrb"]["orbColor"]["b"] = 0.43137159943581;
+        D32CharacterData["healthOrb"]["orbColor"]["g"] = 0.61176335811615;
+        D32CharacterData["healthOrb"]["orbColor"]["r"] = 0.78039044234902;
+        D32CharacterData["healthOrb"]["offsetY"] = 0;
+        D32CharacterData["healthOrb"]["scale"] = 1.01;
+        D32CharacterData["healthOrb"]["formatting"]["truncated"] = true;
+        D32CharacterData["healthOrb"]["formatting"]["commaSeparated"] = false;
+        D32CharacterData["smoothing"] = true;
+        D32CharacterData["combat"]["enabled"] = true;
+        D32CharacterData["combat"]["galaxy"]["a"] = 1;
+        D32CharacterData["combat"]["galaxy"]["b"] = 0;
+        D32CharacterData["combat"]["galaxy"]["g"] = 0;
+        D32CharacterData["combat"]["galaxy"]["r"] = 0.8;
+        D32CharacterData["combat"]["orbColor"]["a"] = 1;
+        D32CharacterData["combat"]["orbColor"]["b"] = 0;
+        D32CharacterData["combat"]["orbColor"]["g"] = 0;
+        D32CharacterData["combat"]["orbColor"]["r"] = 0.8;
+        D32CharacterData["combat"]["font2"]["a"] = 1;
+        D32CharacterData["combat"]["font2"]["b"] = 1;
+        D32CharacterData["combat"]["font2"]["g"] = 1;
+        D32CharacterData["combat"]["font2"]["r"] = 1;
+        D32CharacterData["combat"]["font1"]["a"] = 1;
+        D32CharacterData["combat"]["font1"]["b"] = 1;
+        D32CharacterData["combat"]["font1"]["g"] = 1;
+        D32CharacterData["combat"]["font1"]["r"] = 1;
+
+
+        D32Textures["manaOrb"]["rotation"] = "orb_rotation_bubbles";
+        D32Textures["manaOrb"]["fill"] = "MDO_orb_filling2.tga";
+        D32Textures["healthOrb"]["rotation"] = "orb_rotation_bubbles";
+        D32Textures["healthOrb"]["fill"] = "MDO_orb_filling2.tga";
+    end)
+end
+
+
 function l:OnInitialize()
     RegisterElvUI()
     RegisterQuartz()
+    RegisterMistrasDiabloOrbs()
 end

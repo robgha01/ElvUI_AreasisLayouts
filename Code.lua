@@ -42,9 +42,6 @@ local function SetupLayout(layout)
 	-- 	DiabloLayout()
 	-- end
 	
-	ViragDevTool_AddData(layout, "SetupLayout")
-	ViragDevTool_AddData(mod.layouts, "layouts")
-	ViragDevTool_AddData(mod.layouts[layout], "layout")
 	local layoutInstaller = mod.layouts[layout]
 	layoutInstaller["ElvUI"]()
 
