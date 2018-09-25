@@ -430,12 +430,14 @@ local function RegisterMistrasDiabloOrbs()
         D32CharacterData["manaOrb"]["galaxy"]["b"] = 0;
         D32CharacterData["manaOrb"]["galaxy"]["g"] = 0;
         D32CharacterData["manaOrb"]["galaxy"]["r"] = 0.79999824240804;
+        D32CharacterData["manaOrb"]["point"] = "BOTTOMRIGHT";
         D32CharacterData["manaOrb"]["font2"]["a"] = 0.99999779462814;
         D32CharacterData["manaOrb"]["font2"]["r"] = 0.99999780301005;
         D32CharacterData["manaOrb"]["font2"]["show"] = true;
         D32CharacterData["manaOrb"]["font2"]["g"] = 0.99999779462814;
         D32CharacterData["manaOrb"]["font2"]["b"] = 0.99999779462814;
-        D32CharacterData["manaOrb"]["offsetX"] = 250;
+        D32CharacterData["manaOrb"]["relativePoint"] = "BOTTOMRIGHT";
+        D32CharacterData["manaOrb"]["offsetX"] = -378.80187826921;
         D32CharacterData["manaOrb"]["font1"]["a"] = 0.99999779462814;
         D32CharacterData["manaOrb"]["font1"]["r"] = 0.99999780301005;
         D32CharacterData["manaOrb"]["font1"]["show"] = true;
@@ -445,7 +447,7 @@ local function RegisterMistrasDiabloOrbs()
         D32CharacterData["manaOrb"]["orbColor"]["b"] = 0;
         D32CharacterData["manaOrb"]["orbColor"]["g"] = 0;
         D32CharacterData["manaOrb"]["orbColor"]["r"] = 0.79999824240804;
-        D32CharacterData["manaOrb"]["offsetY"] = 0;
+        D32CharacterData["manaOrb"]["offsetY"] = 143.56395530183;
         D32CharacterData["manaOrb"]["scale"] = 1.01;
         D32CharacterData["manaOrb"]["formatting"]["truncated"] = true;
         D32CharacterData["manaOrb"]["formatting"]["commaSeparated"] = false;
@@ -533,12 +535,14 @@ local function RegisterMistrasDiabloOrbs()
         D32CharacterData["healthOrb"]["galaxy"]["b"] = 0.43137159943581;
         D32CharacterData["healthOrb"]["galaxy"]["g"] = 0.61176335811615;
         D32CharacterData["healthOrb"]["galaxy"]["r"] = 0.78039044234902;
+        D32CharacterData["healthOrb"]["point"] = "BOTTOMLEFT";
         D32CharacterData["healthOrb"]["font2"]["a"] = 0.99999779462814;
         D32CharacterData["healthOrb"]["font2"]["r"] = 0.99999780301005;
         D32CharacterData["healthOrb"]["font2"]["show"] = true;
         D32CharacterData["healthOrb"]["font2"]["g"] = 0.99999779462814;
         D32CharacterData["healthOrb"]["font2"]["b"] = 0.99999779462814;
-        D32CharacterData["healthOrb"]["offsetX"] = -250;
+        D32CharacterData["healthOrb"]["relativePoint"] = "BOTTOMLEFT";
+        D32CharacterData["healthOrb"]["offsetX"] = 382.72270581499;
         D32CharacterData["healthOrb"]["font1"]["a"] = 0.99999779462814;
         D32CharacterData["healthOrb"]["font1"]["r"] = 0.99999780301005;
         D32CharacterData["healthOrb"]["font1"]["show"] = true;
@@ -548,7 +552,7 @@ local function RegisterMistrasDiabloOrbs()
         D32CharacterData["healthOrb"]["orbColor"]["b"] = 0.43137159943581;
         D32CharacterData["healthOrb"]["orbColor"]["g"] = 0.61176335811615;
         D32CharacterData["healthOrb"]["orbColor"]["r"] = 0.78039044234902;
-        D32CharacterData["healthOrb"]["offsetY"] = 0;
+        D32CharacterData["healthOrb"]["offsetY"] = 144.55501661092;
         D32CharacterData["healthOrb"]["scale"] = 1.01;
         D32CharacterData["healthOrb"]["formatting"]["truncated"] = true;
         D32CharacterData["healthOrb"]["formatting"]["commaSeparated"] = false;
@@ -576,6 +580,9 @@ local function RegisterMistrasDiabloOrbs()
         D32Textures["manaOrb"]["fill"] = "MDO_orb_filling2.tga";
         D32Textures["healthOrb"]["rotation"] = "orb_rotation_bubbles";
         D32Textures["healthOrb"]["fill"] = "MDO_orb_filling2.tga";
+
+		healthOrb:UpdateState()
+		manaOrb:UpdateState()
     end)
 end
 
