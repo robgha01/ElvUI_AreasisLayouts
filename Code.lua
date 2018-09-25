@@ -1,4 +1,5 @@
 local AceAddon = LibStub("AceAddon-3.0")
+local AceGUI = LibStub("AceGUI-3.0")
 --Don't worry about this
 local addon, ns = ...
 local Version = GetAddOnMetadata(addon, "Version")
@@ -128,6 +129,84 @@ local InstallerData = {
 	StepTitleTextJustification = "RIGHT",
 }
 
+-- This exports addon save variables to a plugin format
+local function profileTableToPluginFormat(tableRoot, inTable, setterFormat)
+	local lineStructureTable = {};   
+	local profileText = setterFormat;
+	if(not profileText) then
+	   return;
+	end
+	
+	local returnString = "";
+	local lineStructure = "";
+	local sameLine = false;
+	
+	local function buildLineStructure()
+	   local str = profileText;
+	   for _, v in ipairs(lineStructureTable) do
+		  if(type(v) == "string") then
+			 str = str .. "[\"" .. v .. "\"]";
+		  else
+			 str = str .. "[" .. v .. "]";
+		  end
+	   end
+	   
+	   return str;
+	end
+	
+	local function recurse(tbl)
+	   lineStructure = buildLineStructure();
+	   for k, v in pairs(tbl) do
+		 if k ~= tableRoot and v ~= tableRoot then
+			 if(not sameLine) then
+				 returnString = returnString .. lineStructure;
+			  end
+			  
+			  returnString = returnString .. "[";
+			  
+			  if(type(k) == "string") then
+				 returnString = returnString.."\"" .. k .. "\"";
+			  else
+				 returnString = returnString .. k;
+			  end
+			  
+			  if(type(v) == "table") then
+				 tinsert(lineStructureTable, k);
+				 sameLine = true;
+				 returnString = returnString .. "]";
+				 recurse(v);
+			 else
+				 sameLine = false;
+				 returnString = returnString .. "] = ";
+				 
+				 if(type(v) == "number") then
+				 returnString = returnString .. v .. ";\n";
+				 elseif(type(v) == "string") then
+				 returnString = returnString .. "\"" .. v:gsub("\\", "\\\\"):gsub("\n", "\\n"):gsub("\"", "\\\"") .. "\";\n";
+				 elseif(type(v) == "boolean") then
+				 if(v) then
+					 returnString = returnString .. "true;\n";
+				 else
+					 returnString = returnString .. "false;\n";
+				 end
+				 else
+					 returnString = returnString .. "\"" .. tostring(v) .. "\"\n";
+				 end
+			 end
+		 end
+	   end
+	   
+	   tremove(lineStructureTable);
+	   lineStructure = buildLineStructure();
+	end
+	
+	if(inTable and setterFormat) then
+	   recurse(inTable);
+	end
+	
+	return returnString	
+ end
+
 --This function holds the options table which will be inserted into the ElvUI config
 local function InsertOptions()
 	E.Options.args.MyPluginName = {
@@ -171,6 +250,51 @@ local function InsertOptions()
 				name = "Install",
 				desc = "Run the installation process.",
 				func = function() E:GetModule("PluginInstaller"):Queue(InstallerData); E:ToggleConfig(); end,
+			},
+			export = {
+				order = 7,
+				type = "execute",
+				name = "Export",
+				desc = "Exports supported addons for use with layout building. (For ElvUI use build in export with PluginFormat)",
+				func = function()
+					local text = ""
+
+					if D32Textures then
+						text = profileTableToPluginFormat(D32CharacterData, D32CharacterData, "D32CharacterData")
+						text = text..profileTableToPluginFormat(D32Textures, D32Textures, "D32Textures")
+					end
+
+					local Quartz3 = LibStub("AceAddon-3.0"):GetAddon("Quartz3")
+					if Quartz3 then
+						text = text..profileTableToPluginFormat(Quartz3, Quartz3.db.profile, "Quartz3.db.profile")
+						text = text..profileTableToPluginFormat(Quartz3, Quartz3.db.children.Buff.profile, "Quartz3.db.children.Buff.profile")
+						text = text..profileTableToPluginFormat(Quartz3, Quartz3.db.children.Flight.profile, "Quartz3.db.children.Flight.profile")
+						text = text..profileTableToPluginFormat(Quartz3, Quartz3.db.children.Focus.profile, "Quartz3.db.children.Focus.profile")
+						text = text..profileTableToPluginFormat(Quartz3, Quartz3.db.children.GCD.profile, "Quartz3.db.children.GCD.profile")
+						text = text..profileTableToPluginFormat(Quartz3, Quartz3.db.children.Interrupt.profile, "Quartz3.db.children.Interrupt.profile")
+						text = text..profileTableToPluginFormat(Quartz3, Quartz3.db.children.Latency.profile, "Quartz3.db.children.Latency.profile")
+						text = text..profileTableToPluginFormat(Quartz3, Quartz3.db.children.Mirror.profile, "Quartz3.db.children.Mirror.profile")
+						text = text..profileTableToPluginFormat(Quartz3, Quartz3.db.children.Pet.profile, "Quartz3.db.children.Pet.profile")
+						text = text..profileTableToPluginFormat(Quartz3, Quartz3.db.children.Player.profile, "Quartz3.db.children.Player.profile")
+						text = text..profileTableToPluginFormat(Quartz3, Quartz3.db.children.Range.profile, "Quartz3.db.children.Range.profile")
+						text = text..profileTableToPluginFormat(Quartz3, Quartz3.db.children.Swing.profile, "Quartz3.db.children.Swing.profile")
+						text = text..profileTableToPluginFormat(Quartz3, Quartz3.db.children.Target.profile, "Quartz3.db.children.Target.profile")
+					end
+
+					local frame = AceGUI:Create("Frame")
+					frame:SetTitle("Export Data")
+					frame:SetCallback("OnClose", function(widget) AceGUI:Release(widget) end)
+					frame:SetLayout("Flow")
+					
+					local editbox = AceGUI:Create("MultiLineEditBox")
+					editbox:SetLabel("Data:")
+					editbox:SetText(text)
+					editbox:SetFullWidth(true)
+					editbox:SetFullHeight(true)
+					editbox:DisableButton(true)
+					editbox:SetFocus()
+					frame:AddChild(editbox)
+				end,
 			},
 		},
 	}
