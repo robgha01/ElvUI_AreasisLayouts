@@ -274,15 +274,6 @@ local function RegisterElvUI()
     end)
 end
 
-local function RegisterQuartz3()
-    mod:RegisterLayout("Basic", "Quartz3", function(Quartz3)
-        
-        Quartz3:ApplySettings()
-    end)
-end
-
-
 function l:OnInitialize()
     RegisterElvUI()
-    RegisterQuartz3()
 end

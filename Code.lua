@@ -26,6 +26,21 @@ local EP = LibStub("LibElvUIPlugin-1.0")
 local mod = E:NewModule(MyPluginName, "AceHook-3.0", "AceEvent-3.0", "AceTimer-3.0");
 
 mod.layouts = {}
+mod.modules = {
+	["Quartz3"] = { enabled = true, addon = function() return AceAddon:GetAddon("Quartz3",true) or nil end },
+	["MistrasDiabloOrbs"] = { enabled = true, addon = function() return D32CharacterData or nil end },
+	["ShadowedUnitFrames"] = { enabled = true, addon = function() return ShadowUF or nil end },
+}
+
+local uniquealyzer = 1;
+local function createCheckbutton(displayname)
+	uniquealyzer = uniquealyzer + 1;
+	
+	local checkbutton = CreateFrame("CheckButton", MyPluginName.."CheckButton0" .. uniquealyzer, PluginInstallFrame, "ChatConfigCheckButtonTemplate");
+	getglobal(checkbutton:GetName() .. 'Text'):SetText(displayname);
+
+	return checkbutton;
+end
 
 --This function will hold your layout settings
 local function SetupLayout(layout)
@@ -46,14 +61,11 @@ local function SetupLayout(layout)
 	local layoutInstaller = mod.layouts[layout]
 	layoutInstaller["ElvUI"]()
 
-	local Quartz3 = AceAddon:GetAddon("Quartz3")
-	if Quartz3 and layoutInstaller["Quartz3"] then
-		layoutInstaller["Quartz3"](Quartz3)
+	for k,v in pairs(mod.modules) do
+		if v.addon() and layoutInstaller[k] then
+			layoutInstaller[k](v.addon())
+		end
 	end
-
-	-- if D32CharacterData then
-	-- 	D32CharacterData.healthOrb.scale = 1.01		-- <= move this
-	-- end
 	
 	--[[
 	--	This section at the bottom is just to update ElvUI and display a message
@@ -86,12 +98,34 @@ local InstallerData = {
 	Pages = {
 		[1] = function()
 			PluginInstallFrame.SubTitle:SetFormattedText("Welcome to the installation for %s inspired by Lyffe's clean ui.", MyPluginName)
-			PluginInstallFrame.Desc1:SetText("This installation process will guide you through a few steps and apply settings to your current ElvUI profile. If you want to be able to go back to your original settings then create a new profile before going through this installation process.")
+			PluginInstallFrame.Desc1:SetText("This installation process will guide you through a few steps and apply settings to your current ElvUI profile and any supported addon. If you want to be able to go back to your original settings then create a new profile before going through this installation process.")
 			PluginInstallFrame.Desc2:SetText("Please press the continue button if you wish to go through the installation process, otherwise click the 'Skip Process' button.")
 			PluginInstallFrame.Option1:Show()
 			PluginInstallFrame.Option1:SetScript("OnClick", InstallComplete)
 			PluginInstallFrame.Option1:SetText("Skip Process")
-			
+		end,
+		[2] = function()
+			PluginInstallFrame.SubTitle:SetText("Layouts")
+			PluginInstallFrame.Desc1:SetText("These are the layouts that are available. Please click a button below to apply the layout of your choosing.\nTo see the installed layout you need to finish the installation.")
+			PluginInstallFrame.Desc2:SetText("Importance: |cff07D400High|r")
+
+			-- local lastCheckControl = PluginInstallFrame
+			-- local lastCheckControlX = 25
+			-- for k,v in pairs(mod.modules) do
+			-- 	if v.addon() then
+			-- 		local enableBtn = createCheckbutton(k)
+			-- 		local textW = getglobal(enableBtn:GetName() .. 'Text'):GetStringWidth()
+			-- 		enableBtn:ClearAllPoints()
+			-- 		enableBtn:Point("CENTER", lastCheckControl, "LEFT", lastCheckControlX, 0)
+			-- 		enableBtn:Show()
+			-- 		enableBtn:SetScript("OnClick", function() v.enabled = not v.enabled end)
+			-- 		enableBtn:SetChecked(true)
+			-- 		E.Skins:HandleCheckBox(enableBtn, true)				
+			-- 		lastCheckControl = enableBtn
+			-- 		lastCheckControlX = lastCheckControlX + textW + 25
+			-- 	end
+			-- end
+
 			local index = 2
 			for layoutName,v in pairs(mod.layouts) do
 				local optFrame = PluginInstallFrame["Option"..index]
@@ -99,16 +133,9 @@ local InstallerData = {
 				optFrame:SetScript("OnClick", function() SetupLayout(layoutName) end)
 				optFrame:SetText(layoutName.." Layout")
 				index = index + 1
-			end
-			
-			--PluginInstallFrame.Option2:Show()
-			-- PluginInstallFrame.Option2:SetScript("OnClick", function() SetupLayout("BasicLayout") end)
-			-- PluginInstallFrame.Option2:SetText("Basic Layout")
-			-- PluginInstallFrame.Option3:Show()
-			-- PluginInstallFrame.Option3:SetScript("OnClick", function() SetupLayout("DiabloLayout") end)
-			-- PluginInstallFrame.Option3:SetText("Diablo Layout")
+			end	
 		end,
-		[2] = function()
+		[3] = function()
 			PluginInstallFrame.SubTitle:SetText("Installation Complete")
 			PluginInstallFrame.Desc1:SetText("You have completed the installation process.")
 			PluginInstallFrame.Desc2:SetText("Please click the button below in order to finalize the process and automatically reload your UI.")
@@ -129,83 +156,7 @@ local InstallerData = {
 	StepTitleTextJustification = "RIGHT",
 }
 
--- This exports addon save variables to a plugin format
-local function profileTableToPluginFormat(tableRoot, inTable, setterFormat)
-	local lineStructureTable = {};   
-	local profileText = setterFormat;
-	if(not profileText) then
-	   return;
-	end
-	
-	local returnString = "";
-	local lineStructure = "";
-	local sameLine = false;
-	
-	local function buildLineStructure()
-	   local str = profileText;
-	   for _, v in ipairs(lineStructureTable) do
-		  if(type(v) == "string") then
-			 str = str .. "[\"" .. v .. "\"]";
-		  else
-			 str = str .. "[" .. v .. "]";
-		  end
-	   end
-	   
-	   return str;
-	end
-	
-	local function recurse(tbl)
-	   lineStructure = buildLineStructure();
-	   for k, v in pairs(tbl) do
-		 if k ~= tableRoot and v ~= tableRoot then
-			 if(not sameLine) then
-				 returnString = returnString .. lineStructure;
-			  end
-			  
-			  returnString = returnString .. "[";
-			  
-			  if(type(k) == "string") then
-				 returnString = returnString.."\"" .. k .. "\"";
-			  else
-				 returnString = returnString .. k;
-			  end
-			  
-			  if(type(v) == "table") then
-				 tinsert(lineStructureTable, k);
-				 sameLine = true;
-				 returnString = returnString .. "]";
-				 recurse(v);
-			 else
-				 sameLine = false;
-				 returnString = returnString .. "] = ";
-				 
-				 if(type(v) == "number") then
-				 returnString = returnString .. v .. ";\n";
-				 elseif(type(v) == "string") then
-				 returnString = returnString .. "\"" .. v:gsub("\\", "\\\\"):gsub("\n", "\\n"):gsub("\"", "\\\"") .. "\";\n";
-				 elseif(type(v) == "boolean") then
-				 if(v) then
-					 returnString = returnString .. "true;\n";
-				 else
-					 returnString = returnString .. "false;\n";
-				 end
-				 else
-					 returnString = returnString .. "\"" .. tostring(v) .. "\"\n";
-				 end
-			 end
-		 end
-	   end
-	   
-	   tremove(lineStructureTable);
-	   lineStructure = buildLineStructure();
-	end
-	
-	if(inTable and setterFormat) then
-	   recurse(inTable);
-	end
-	
-	return returnString	
- end
+
 
 --This function holds the options table which will be inserted into the ElvUI config
 local function InsertOptions()
@@ -251,34 +202,41 @@ local function InsertOptions()
 				desc = "Run the installation process.",
 				func = function() E:GetModule("PluginInstaller"):Queue(InstallerData); E:ToggleConfig(); end,
 			},
-			export = {
+			spacer3 = {
 				order = 7,
+				type = "description",
+				name = " ",
+			},
+			export = {
+				order = 8,
 				type = "execute",
 				name = "Export",
-				desc = "Exports supported addons for use with layout building. (For ElvUI use build in export with PluginFormat)",
+				desc = "Exports supported addons for use with layout building. (For ElvUI use build in export with PluginFormat)\n\nThis may take some time and freeze your ui while working",
 				func = function()
-					local text = ""
-
 					if D32Textures then
-						text = profileTableToPluginFormat(D32CharacterData, D32CharacterData, "D32CharacterData")
-						text = text..profileTableToPluginFormat(D32Textures, D32Textures, "D32Textures")
+						mod:QueueTable(D32CharacterData, "D32CharacterData")
+						mod:QueueTable(D32Textures, "D32Textures")
 					end
 
-					local Quartz3 = LibStub("AceAddon-3.0"):GetAddon("Quartz3")
+					local Quartz3 = LibStub("AceAddon-3.0"):GetAddon("Quartz3",true)
 					if Quartz3 then
-						text = text..profileTableToPluginFormat(Quartz3, Quartz3.db.profile, "Quartz3.db.profile")
-						text = text..profileTableToPluginFormat(Quartz3, Quartz3.db.children.Buff.profile, "Quartz3.db.children.Buff.profile")
-						text = text..profileTableToPluginFormat(Quartz3, Quartz3.db.children.Flight.profile, "Quartz3.db.children.Flight.profile")
-						text = text..profileTableToPluginFormat(Quartz3, Quartz3.db.children.Focus.profile, "Quartz3.db.children.Focus.profile")
-						text = text..profileTableToPluginFormat(Quartz3, Quartz3.db.children.GCD.profile, "Quartz3.db.children.GCD.profile")
-						text = text..profileTableToPluginFormat(Quartz3, Quartz3.db.children.Interrupt.profile, "Quartz3.db.children.Interrupt.profile")
-						text = text..profileTableToPluginFormat(Quartz3, Quartz3.db.children.Latency.profile, "Quartz3.db.children.Latency.profile")
-						text = text..profileTableToPluginFormat(Quartz3, Quartz3.db.children.Mirror.profile, "Quartz3.db.children.Mirror.profile")
-						text = text..profileTableToPluginFormat(Quartz3, Quartz3.db.children.Pet.profile, "Quartz3.db.children.Pet.profile")
-						text = text..profileTableToPluginFormat(Quartz3, Quartz3.db.children.Player.profile, "Quartz3.db.children.Player.profile")
-						text = text..profileTableToPluginFormat(Quartz3, Quartz3.db.children.Range.profile, "Quartz3.db.children.Range.profile")
-						text = text..profileTableToPluginFormat(Quartz3, Quartz3.db.children.Swing.profile, "Quartz3.db.children.Swing.profile")
-						text = text..profileTableToPluginFormat(Quartz3, Quartz3.db.children.Target.profile, "Quartz3.db.children.Target.profile")
+						mod:QueueTable(Quartz3.db.profile, "Quartz3.db.profile")
+						mod:QueueTable(Quartz3.db.children.Buff.profile, "Quartz3.db.children.Buff.profile")
+						mod:QueueTable(Quartz3.db.children.Flight.profile, "Quartz3.db.children.Flight.profile")
+						mod:QueueTable(Quartz3.db.children.Focus.profile, "Quartz3.db.children.Focus.profile")
+						mod:QueueTable(Quartz3.db.children.GCD.profile, "Quartz3.db.children.GCD.profile")
+						mod:QueueTable(Quartz3.db.children.Interrupt.profile, "Quartz3.db.children.Interrupt.profile")
+						mod:QueueTable(Quartz3.db.children.Latency.profile, "Quartz3.db.children.Latency.profile")
+						mod:QueueTable(Quartz3.db.children.Mirror.profile, "Quartz3.db.children.Mirror.profile")
+						mod:QueueTable(Quartz3.db.children.Pet.profile, "Quartz3.db.children.Pet.profile")
+						mod:QueueTable(Quartz3.db.children.Player.profile, "Quartz3.db.children.Player.profile")
+						mod:QueueTable(Quartz3.db.children.Range.profile, "Quartz3.db.children.Range.profile")
+						mod:QueueTable(Quartz3.db.children.Swing.profile, "Quartz3.db.children.Swing.profile")
+						mod:QueueTable(Quartz3.db.children.Target.profile, "Quartz3.db.children.Target.profile")
+					end
+
+					if ShadowUF then
+						mod:QueueTable(ShadowUF.db.profile, "ShadowUF.db.profile")
 					end
 
 					local frame = AceGUI:Create("Frame")
@@ -288,12 +246,12 @@ local function InsertOptions()
 					
 					local editbox = AceGUI:Create("MultiLineEditBox")
 					editbox:SetLabel("Data:")
-					editbox:SetText(text)
 					editbox:SetFullWidth(true)
 					editbox:SetFullHeight(true)
 					editbox:DisableButton(true)
 					editbox:SetFocus()
 					frame:AddChild(editbox)
+					mod:ProcessQueue(function(r) editbox:SetText(r) end)
 				end,
 			},
 		},

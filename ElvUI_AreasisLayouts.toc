@@ -7,4 +7,5 @@
 ## DefaultState: enabled
 
 Code.lua
+Export.lua
 layouts\Load_Layouts.xml
