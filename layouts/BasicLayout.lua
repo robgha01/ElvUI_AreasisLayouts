@@ -268,9 +268,12 @@ local function RegisterElvUI()
         E.global["general"]["commandBarSetting"] = "DISABLED";
         E.global["uiScale"] = "0.64";
         E.global["userInformedNewChanges1"] = true;
-        E.global["sle"]["advanced"]["confirmed"] = true;
-        E.global["sle"]["advanced"]["optionsLimits"] = true;
-        E.global["sle"]["advanced"]["cyrillics"]["commands"] = true;
+        
+        if E.global["sle"] then
+            E.global["sle"]["advanced"]["cyrillics"]["commands"] = true;
+            E.global["sle"]["advanced"]["optionsLimits"] = true;
+            E.global["sle"]["advanced"]["confirmed"] = true;
+        end
     end)
 end
 
