@@ -1,5 +1,5 @@
-## Interface: 70300
-## Author: Blazeflack
+## Interface: 30300
+## Author: Areasis
 ## Version: 1.00
 ## Title: |cff1784d1ElvUI|r |cff4beb2cAreasis Layouts|r
 ## Notes: Contains layouts from SomePerson
