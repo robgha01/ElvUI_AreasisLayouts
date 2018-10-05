@@ -80,16 +80,26 @@ local function tableToPluginFormat(tbl, profileText)
     end
 end
 
-function mod:QueueTable(tbl, profileText)
-    table.insert(queue, {tbl = tbl, profileText = profileText})
+function mod:QueueTable(tbl, profileTextOrFormatter)
+    if type(profileTextOrFormatter) == "string" then
+        table.insert(queue, {tbl = tbl, profileText = profileTextOrFormatter})
+    elseif type(profileTextOrFormatter) == "function" then
+        table.insert(queue, {tbl = tbl, profileText = "", formatter = profileTextOrFormatter})
+    else
+        error("profileTextOrFormatter must be a function or string but it is " ..type(profileTextOrFormatter))
+    end
 end
 
 function mod:ProcessQueue(callback)
     local d = ""
     for _, v in ipairs(queue) do
-        for data in tableToPluginFormat(v.tbl, v.profileText) do
-            d = d .. data
-        end
+        if v.formatter then
+            d = d .. v:formatter(v.tbl)
+        else
+            for data in tableToPluginFormat(v.tbl, v.profileText) do
+                d = d .. data
+            end
+        end        
     end
     callback(d)
     collectgarbage() -- force a garbage collection
