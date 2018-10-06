@@ -884,6 +884,8 @@ local function RegisterShadowedUnitFrames()
         ShadowUF.db.profile["filters"]["whitelists"]["zonewhite"] = {}
         ShadowUF.db.profile["filters"]["whitelists"]["zonewhite"]["zoneblack"] = {}
         ShadowUF.db.profile["filters"]["whitelists"]["zonewhite"]["zoneblack"]["blacklists"] = {}
+        ShadowUF.db.profile["filters"]["whitelists"]["zonewhite"]["zoneblack"]["blacklists"]["castColors"] = {}
+        ShadowUF.db.profile["filters"]["whitelists"]["zonewhite"]["zoneblack"]["blacklists"]["castColors"]["cast"] = {}
 
         -- -- * Paste export here
         ShadowUF.db.profile["powerColors"]["MANA"]["b"] = 0.85;
