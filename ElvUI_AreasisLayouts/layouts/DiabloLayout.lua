@@ -873,17 +873,17 @@ end
 local function RegisterShadowedUnitFrames()
     mod:RegisterLayout("Diablo", "ShadowedUnitFrames", function(ShadowUF)
         -- * Dont remove this is needed as the addon is not creating every key by default...
-        -- ShadowUF.db.profile["range"]["auras"] = {}
-        -- ShadowUF.db.profile["tags"] = {}
-        -- ShadowUF.db.profile["tags"]["bars"] = {}
-        -- ShadowUF.db.profile["visibility"]["arena"] = {}
-        -- ShadowUF.db.profile["visibility"]["arena"]["raid"] = {}
-        -- ShadowUF.db.profile["visibility"]["arena"]["raid"]["party"] = {}
-        -- ShadowUF.db.profile["visibility"]["arena"]["raid"]["party"]["pvp"] = {}
-        -- ShadowUF.db.profile["visibility"]["arena"]["raid"]["party"]["pvp"]["hidden"] = {}
-        -- ShadowUF.db.profile["filters"]["whitelists"]["zonewhite"] = {}
-        -- ShadowUF.db.profile["filters"]["whitelists"]["zonewhite"]["zoneblack"] = {}
-        -- ShadowUF.db.profile["filters"]["whitelists"]["zonewhite"]["zoneblack"]["blacklists"] = {}
+        ShadowUF.db.profile["range"]["auras"] = {}
+        ShadowUF.db.profile["tags"] = {}
+        ShadowUF.db.profile["tags"]["bars"] = {}
+        ShadowUF.db.profile["visibility"]["arena"] = {}
+        ShadowUF.db.profile["visibility"]["arena"]["raid"] = {}
+        ShadowUF.db.profile["visibility"]["arena"]["raid"]["party"] = {}
+        ShadowUF.db.profile["visibility"]["arena"]["raid"]["party"]["pvp"] = {}
+        ShadowUF.db.profile["visibility"]["arena"]["raid"]["party"]["pvp"]["hidden"] = {}
+        ShadowUF.db.profile["filters"]["whitelists"]["zonewhite"] = {}
+        ShadowUF.db.profile["filters"]["whitelists"]["zonewhite"]["zoneblack"] = {}
+        ShadowUF.db.profile["filters"]["whitelists"]["zonewhite"]["zoneblack"]["blacklists"] = {}
 
         -- -- * Paste export here
         ShadowUF.db.profile["powerColors"]["MANA"]["b"] = 0.85;
